@@ -23,16 +23,16 @@ RUN touch /etc/authbind/byport/22 && chmod 777 /etc/authbind/byport/22 && chown 
 
     # Build a cowrie environment from github master HEAD.
 
-add cowrie/ /cowrie/cowrie-git
-RUN chown -R cowrie:cowrie /cowrie/cowrie-git
-RUN su - cowrie -c "\
+RUN su cowrie
+copy cowrie/ /cowrie/cowrie-git
+RUN \
       cd /cowrie/cowrie-git && \
         virtualenv cowrie-env && \
         . cowrie-env/bin/activate && \
-        pip install --upgrade pip && \
-        pip install --upgrade cffi && \
-        pip install --upgrade setuptools && \
-        pip install --upgrade -r /cowrie/cowrie-git/requirements.txt"
+        pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade pip && \
+        pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade cffi && \
+        pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade setuptools && \
+        pip install -i https://pypi.tuna.tsinghua.edu.cn/simple  --upgrade -r /cowrie/cowrie-git/requirements.txt
 
 FROM ubuntu
 MAINTAINER Michel Oosterhof <michel@oosterhof.net>
