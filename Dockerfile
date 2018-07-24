@@ -1,4 +1,4 @@
-FROM debian:stretch-slim as builder
+FROM ubuntu as builder
 MAINTAINER Michel Oosterhof <michel@oosterhof.net>
 RUN groupadd -r -g 1000 cowrie && \
     useradd -r -u 1000 -d /cowrie -m -g cowrie cowrie
@@ -17,11 +17,15 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
       python \
       git \
       virtualenv \
-      python-virtualenv
+      python-virtualenv \
+      authbind
+RUN touch /etc/authbind/byport/22 && chmod 777 /etc/authbind/byport/22 && chown cowrie:cowrie /etc/authbind/byport/22
 
     # Build a cowrie environment from github master HEAD.
+
+add cowrie/ /cowrie/cowrie-git
+RUN chown -R cowrie:cowrie /cowrie/cowrie-git
 RUN su - cowrie -c "\
-      git clone http://github.com/micheloosterhof/cowrie /cowrie/cowrie-git && \
       cd /cowrie/cowrie-git && \
         virtualenv cowrie-env && \
         . cowrie-env/bin/activate && \
@@ -30,7 +34,7 @@ RUN su - cowrie -c "\
         pip install --upgrade setuptools && \
         pip install --upgrade -r /cowrie/cowrie-git/requirements.txt"
 
-FROM debian:stretch-slim
+FROM ubuntu
 MAINTAINER Michel Oosterhof <michel@oosterhof.net>
 RUN groupadd -r -g 1000 cowrie && \
     useradd -r -u 1000 -d /cowrie -m -g cowrie cowrie
@@ -42,7 +46,11 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
         -o APT::Install-Recommends=false \
       libssl1.1 \
       libffi6 \
-      python
+      python \
+      authbind
+
+RUN touch /etc/authbind/byport/22 && chmod 777 /etc/authbind/byport/22
+
 
 COPY --from=builder /cowrie/cowrie-git /cowrie/cowrie-git
 RUN chown -R cowrie:cowrie /cowrie
@@ -50,5 +58,5 @@ RUN chown -R cowrie:cowrie /cowrie
 USER cowrie
 WORKDIR /cowrie/cowrie-git
 CMD [ "/cowrie/cowrie-git/bin/cowrie", "start", "-n" ]
-EXPOSE 2222 2223
+EXPOSE 22 23
 VOLUME [ "/cowrie/cowrie-git/etc" ]
