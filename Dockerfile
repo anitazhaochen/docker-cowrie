@@ -31,6 +31,7 @@ RUN \
         . cowrie-env/bin/activate && \
         pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade pip && \
         pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade cffi && \
+        pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade pymongo && \
         pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade setuptools && \
         pip install -i https://pypi.tuna.tsinghua.edu.cn/simple  --upgrade -r /cowrie/cowrie-git/requirements.txt
 
