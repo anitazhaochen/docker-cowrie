@@ -29,11 +29,11 @@ RUN \
       cd /cowrie/cowrie-git && \
         virtualenv cowrie-env && \
         . cowrie-env/bin/activate && \
-        pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade pip && \
-        pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade cffi && \
-        pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade pymongo && \
-        pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade setuptools && \
-        pip install -i https://pypi.tuna.tsinghua.edu.cn/simple  --upgrade -r /cowrie/cowrie-git/requirements.txt
+        pip install -i https://pypi.douban.com/simple/ --upgrade pip && \
+        pip install -i https://pypi.douban.com/simple/ --upgrade cffi && \
+        pip install -i https://pypi.douban.com/simple/ --upgrade pymongo && \
+        pip install -i https://pypi.douban.com/simple/ --upgrade setuptools && \
+        pip install -i https://pypi.douban.com/simple/  --upgrade -r /cowrie/cowrie-git/requirements.txt
 
 FROM ubuntu
 MAINTAINER Michel Oosterhof <michel@oosterhof.net>

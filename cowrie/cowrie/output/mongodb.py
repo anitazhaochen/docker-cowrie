@@ -98,6 +98,7 @@ class Output(cowrie.core.output.Output):
             new_entry['type'] = 'intrude'
             new_entry['level'] = 'orange'
             new_entry['position'] = 'outside'
+            new_entry['session'] = entry['session']
 
             self.insert_one(self.co_event,new_entry)
             self.insert_one(self.col_auth, entry)
